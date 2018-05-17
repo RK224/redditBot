@@ -14,7 +14,6 @@ BOT_NAME = 'redditBot'
 SPIDER_MODULES = ['redditBot.spiders']
 NEWSPIDER_MODULE = 'redditBot.spiders'
 
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'redditBot (+http://www.yourdomain.com)'
 

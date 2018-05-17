@@ -1,27 +1,15 @@
 # -*- coding: utf-8 -*-
 import scrapy
-import itertools
 
 class RedditcrawlSpider(scrapy.Spider):
    	name = "redditCrawl"
    	start_urls = ['https://old.reddit.com/r/gameofthrones/']
 
-	def parse(self, response):
-    	    #Extracting the content using css selectors
-        	titles = response.css('.title.may-blank::text').extract()
-        	votes = response.css('.score.unvoted::text').extract()
-        	times = response.css('time::attr(title)').extract()
-    	    comments = response.css('.comments::text').extract()
-       
-    	    #Give the extracted content row wise
-    	    for item in zip(titles,votes,times,comments):
-    	        #create a dictionary to store the scraped info
-    	        scraped_info = {
-        	        'title' : item[0],
-        	        'vote' : item[1],
-           	     'created_at' : item[2],
-        	        'comments' : item[3],
-        	    }
-
-            	#yield or give the scraped info to scrapy
-            	yield scraped_info
+   	def parse(self,response):
+   		for row in response.css("div.thing"):
+   			yield {
+   				'title': row.css('a.title::text').extract_first(),
+				'vote': row.css("div.unvoted::text").extract_first(),
+				'created at': row.css('time::attr(title)').extract_first(),
+				'comments': row.css('a.comments::text').extract_first(),
+   			}
